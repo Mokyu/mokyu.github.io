@@ -35,7 +35,7 @@
 
     img {
       width: 100%;
-      max-width: 250px;
+      max-width: 498px;
       border-radius: 16px;
       margin-bottom: 20px;
     }
@@ -67,22 +67,24 @@
     }
 
     .heart {
-      position: absolute;
-      font-size: 24px;
-      pointer-events: none;
-      animation: float 1.5s ease-out forwards;
-    }
+  position: fixed;
+  font-size: 26px;
+  pointer-events: none;
+  z-index: 9999;
+  animation: pop 1s ease-out forwards;
+}
 
-    @keyframes float {
-      0% {
-        transform: translate(0, 0) scale(1);
-        opacity: 1;
-      }
-      100% {
-        transform: translate(var(--x), var(--y)) scale(1.5);
-        opacity: 0;
-      }
-    }
+@keyframes pop {
+  from {
+    transform: translate(0, 0) scale(1);
+    opacity: 1;
+  }
+  to {
+    transform: translate(var(--dx), var(--dy)) scale(1.6);
+    opacity: 0;
+  }
+}
+
   </style>
 </head>
 <body>
@@ -90,7 +92,7 @@
   <div class="card">
     <h1>Will you be my Valentine? 💖</h1>
 
-    <img src="https://media.giphy.com/media/3oriO0OEd9QIDdllqo/giphy.gif" alt="Cute gif">
+    <img src="https://media1.tenor.com/m/WLbkSP-IE2AAAAAC/csm-flowers.gif" alt="Cute gif">
 
     <div class="buttons">
       <button id="yes">Yes 💕</button>
@@ -102,32 +104,29 @@
   const yesBtn = document.getElementById("yes");
   const noBtn = document.getElementById("no");
 
-  function explodeHearts(button) {
-    const rect = button.getBoundingClientRect();
-    const centerX = rect.left + rect.width / 2;
-    const centerY = rect.top + rect.height / 2;
+  yesBtn.addEventListener("click", () => {
+    const rect = yesBtn.getBoundingClientRect();
+    const cx = rect.left + rect.width / 2;
+    const cy = rect.top + rect.height / 2;
 
-    for (let i = 0; i < 25; i++) {
+    for (let i = 0; i < 30; i++) {
       const heart = document.createElement("div");
       heart.className = "heart";
       heart.textContent = "💖";
 
-      const x = Math.random() * 200 - 100;
-      const y = Math.random() * -200 - 50;
+      const dx = Math.random() * 300 - 150;
+      const dy = Math.random() * -300 - 80;
 
-      heart.style.setProperty("--x", `${x}px`);
-      heart.style.setProperty("--y", `${y}px`);
-      heart.style.left = centerX + "px";
-      heart.style.top = centerY + "px";
+      heart.style.left = cx + "px";
+      heart.style.top = cy + "px";
+      heart.style.setProperty("--dx", dx + "px");
+      heart.style.setProperty("--dy", dy + "px");
 
       document.body.appendChild(heart);
-      setTimeout(() => heart.remove(), 1500);
+      setTimeout(() => heart.remove(), 1000);
     }
-  }
 
-  yesBtn.addEventListener("click", () => {
-    explodeHearts(yesBtn);
-
+    // change screen AFTER hearts visibly pop (short + crisp)
     setTimeout(() => {
       document.body.innerHTML = `
         <div style="
@@ -144,17 +143,19 @@
           <p style="font-size:22px;">You just made my day 💖</p>
         </div>
       `;
-    }, 600);
+    }, 400); // short + snappy
   });
 
   function moveNoButton() {
-    const x = Math.random() * 200 - 100;
-    const y = Math.random() * 200 - 100;
+    const x = Math.random() * 160 - 80;
+    const y = Math.random() * 160 - 80;
     noBtn.style.transform = `translate(${x}px, ${y}px)`;
   }
 
   noBtn.addEventListener("click", moveNoButton);
   noBtn.addEventListener("touchstart", moveNoButton);
 </script>
+
+
 
 
