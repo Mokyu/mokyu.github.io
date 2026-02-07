@@ -99,48 +99,62 @@
   </div>
 
   <script>
-    const yesBtn = document.getElementById("yes");
-    const noBtn = document.getElementById("no");
+  const yesBtn = document.getElementById("yes");
+  const noBtn = document.getElementById("no");
 
-    yesBtn.onclick = (e) => {
-      for (let i = 0; i < 25; i++) {
-        const heart = document.createElement("div");
-        heart.className = "heart";
-        heart.textContent = "💖";
+  function explodeHearts(button) {
+    const rect = button.getBoundingClientRect();
+    const centerX = rect.left + rect.width / 2;
+    const centerY = rect.top + rect.height / 2;
 
-        const x = Math.random() * 200 - 100;
-        const y = Math.random() * -200 - 50;
+    for (let i = 0; i < 25; i++) {
+      const heart = document.createElement("div");
+      heart.className = "heart";
+      heart.textContent = "💖";
 
-        heart.style.setProperty("--x", `${x}px`);
-        heart.style.setProperty("--y", `${y}px`);
-        heart.style.left = e.clientX + "px";
-        heart.style.top = e.clientY + "px";
-
-        document.body.appendChild(heart);
-
-        setTimeout(() => heart.remove(), 1500);
-      }
-
-      setTimeout(() => {
-        document.body.innerHTML = `
-          <div style="
-            font-family: Comic Sans MS, Poppins, system-ui, sans-serif;
-            display:flex;
-            flex-direction:column;
-            align-items:center;
-            justify-content:center;
-            min-height:100vh;
-            background:linear-gradient(135deg,#ffb6c1,#ffe4e1);
-            text-align:center;
-            padding:20px;">
-            <h1 style="color:#ff4d6d;">YAY!!! 💘🥰</h1>
-            <p style="font-size:22px;">You just made my day 💖</p>
-          </div>
-        `;
-      }, 600);
-    };
-
-    noBtn.onmouseover = () => {
       const x = Math.random() * 200 - 100;
-      const y = Math.random() * 200 - 100;
-      noBtn.styl
+      const y = Math.random() * -200 - 50;
+
+      heart.style.setProperty("--x", `${x}px`);
+      heart.style.setProperty("--y", `${y}px`);
+      heart.style.left = centerX + "px";
+      heart.style.top = centerY + "px";
+
+      document.body.appendChild(heart);
+      setTimeout(() => heart.remove(), 1500);
+    }
+  }
+
+  yesBtn.addEventListener("click", () => {
+    explodeHearts(yesBtn);
+
+    setTimeout(() => {
+      document.body.innerHTML = `
+        <div style="
+          font-family: Comic Sans MS, Poppins, system-ui, sans-serif;
+          display:flex;
+          flex-direction:column;
+          align-items:center;
+          justify-content:center;
+          min-height:100vh;
+          background:linear-gradient(135deg,#ffb6c1,#ffe4e1);
+          text-align:center;
+          padding:20px;">
+          <h1 style="color:#ff4d6d;">YAY!!! 💘🥰</h1>
+          <p style="font-size:22px;">You just made my day 💖</p>
+        </div>
+      `;
+    }, 600);
+  });
+
+  function moveNoButton() {
+    const x = Math.random() * 200 - 100;
+    const y = Math.random() * 200 - 100;
+    noBtn.style.transform = `translate(${x}px, ${y}px)`;
+  }
+
+  noBtn.addEventListener("click", moveNoButton);
+  noBtn.addEventListener("touchstart", moveNoButton);
+</script>
+
+
